@@ -1,8 +1,6 @@
-import React, { useState } from "react";
-import Select from "react-select";
+import React from "react";
 import '../App.css';
 import ReactApexChart from 'react-apexcharts';
-import ReactDOM from 'react-dom';
 
 function ShapleyGraph(props){
         const options =  {
@@ -17,6 +15,16 @@ function ShapleyGraph(props){
           },
           xaxis: {
             categories: props.attributes,
+            show: false,
+            labels: {
+              show: false
+            },
+            axisBorder: {
+              show: false
+            },
+            axisTicks: {
+              show: false
+            }
           }
         }
       return (
