@@ -1,6 +1,7 @@
 import './App.css';
 import ReactDOM from 'react-dom';
 import UploadData from './components/UploadData'
+import ShapleyGraph from './components/ShapleyGraph'
 
 
 
@@ -11,6 +12,8 @@ function App() {
       <div className='test'>
         <UploadData />
       </div>
+      <ShapleyGraph data={[-100, 430, 448, 470, 540, 580, 690, 1100, 1200, 1380]}
+       attributes={['South Korea', 'Canada', 'United Kingdom', 'Netherlands', 'Italy', 'France', 'Japan','United States', 'China', 'Germany']} />
     </div>
   );
 }

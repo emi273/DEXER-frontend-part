@@ -1,45 +1,11 @@
+import { isLabelWithInternallyDisabledControl } from "@testing-library/user-event/dist/utils";
 import React, { useState } from "react";
 import Select from "react-select";
 import '../App.css';
+import Consts from './consts';
 
 const PROPOTIONAL = "propotional"
 const NON_PROPOTIONAL = "non-propotional"
-
-const optionsStudents = [
-    { value: "school ", label: "student's school" },
-    { value: "sex", label: "student's sex" },
-    { value: "age", label: "student's age" },
-    { value: "address", label: "student's home address tyep" },
-    { value: "famsize ", label: " family size" },
-    { value: "Pstatus", label: "parent's cohabitation status" },
-    { value: "Medu", label: "mother's education" },
-    { value: "Fedu", label: "father's education" },
-    { value: "Mjob ", label: "mother's job" },
-    { value: "Fjob", label: "father's job" },
-    { value: "reason", label: "student's guardian" },
-    { value: "guardian", label: "student's home address tyep" },
-    { value: "traveltime ", label: "home to school travel time" },
-    { value: "studytime ", label: "weekly study time" },
-    { value: "failures ", label: "number of past class failures" },
-    { value: "schoolsup", label: "extra educational support" },
-    { value: "famsup  ", label: "family educational support" },
-    { value: "paid", label: "extra paid classes within the course subject" },
-    { value: "activities", label: "extra-curricular activities" },
-    { value: "nursery", label: "attended nursery school" },
-    { value: "higher  ", label: "wants to take higher education" },
-    { value: "internet", label: "Internet access at home" },
-    { value: "romantic", label: "with a romantic relationship" },
-    { value: "famrel", label: "quality of family relationships" },
-    { value: "freetime  ", label: "free time after school" },
-    { value: "goout", label: "going out with friends" },
-    { value: "Dalc", label: "workday alcohol consumption" },
-    { value: "Walc", label: "weekend alcohol consumption" },
-    { value: "health", label: "current health status" },
-    { value: "absences", label: "number of school absences" },
-    { value: "G1", label: "first period grade" },
-    { value: "G2", label: "second period grade" },
-    { value: "G3 ", label: "final grade" }
-]
 
 const optionsForData = [
     { value: "1", label: "students" },
@@ -69,11 +35,36 @@ const optionsForAlgorithm = [
 function UploadData(props) {
     console.log("tallll");
 
+    const handleChangeKMin = (event) => {
+        setKMin(event.target.value);
+        console.log(kMin);
+    }
+
+    const handleChangeKMax = (event) => {
+        setKMax(event.target.value);
+        console.log(kMax);
+    }
+
+    const handleChangeThreshold = (event) => {
+        setThreshold(event.target.value);
+        console.log(threshold);
+    }
+
+    const handleChangeAlpha = (event) => {
+        setAlpha(event.target.value);
+        console.log(alpha);
+    }
+
     //todo: upload only if value = 4, on click
 
     const [ifUpload, setIfUpload] = useState(false);
     const [numOfOption, setNumOfOption] = useState("1");
     const [typeOfAlgorithm, setTypeOfAlgorithm] = useState("propotional")
+    const [kMin,setKMin]=useState(0);
+    const [kMax, setKMax]=useState(0);
+    const [threshold, setThreshold]=useState(0);
+    const [alpha, setAlpha]=useState(0);
+
 
     const onChooseDataSet = (choice) => {
         setNumOfOption(choice.value)
@@ -89,7 +80,7 @@ function UploadData(props) {
 
     const getOptions = () => {
         if (numOfOption === "1")
-            return optionsStudents;
+            return Consts.optionsStudents;
         else if (numOfOption === "2")
             return optionsCompass;
         else
@@ -123,7 +114,7 @@ function UploadData(props) {
     return (
         <form className="select">
             <label> please choose data set: </label>
-            <Select options={optionsForData} onChange={setNumOfOption} styles={{ className: 'margin' }} />
+            <Select options={optionsForData} onChange={(choice)=>onChooseDataSet(choice)} styles={{ className: 'margin' }} />
             <div>
                 {ifUpload && <input type="file" name="json" onChange={() => { }} />}
                 {ifUpload && <input type="file" name="csv" onChange={() => { }} />}
@@ -132,12 +123,13 @@ function UploadData(props) {
             {!ifUpload && <Select isMulti options={getOptions()} />}
             <label> choose type of algoirthm:</label>
             <Select label={'type_of_algorthm'} options={optionsForAlgorithm} onChange={(choice) => onChooseAlgorithm(choice)} />
-            <label> Please enter k min: </label> <input type="text" name="k_min" />
-            <label> Please enter k max: </label> <input type="text" name="k_max" />
+            <label> Please enter k min: </label> <input type="text" name="k_min" onChange={handleChangeKMin} />
             <br />
-
-            <label> Please enter threshold: </label> <input type="text" name="k_min" />
-            {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" />}
+            <label> Please enter k max: </label> <input type="text" name="k_max" onChange={handleChangeKMax}  />
+            <br />
+            <label> Please enter threshold: </label> <input type="text" name="threshold" onChange={handleChangeThreshold} />
+            <br />
+            {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" onChange={handleChangeAlpha} />}
             <br />
             <button onClick={handleSubmit}>Submit</button >
         </form>
