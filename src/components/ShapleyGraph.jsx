@@ -2,36 +2,36 @@ import React from "react";
 import '../App.css';
 import ReactApexChart from 'react-apexcharts';
 
-function ShapleyGraph(props){
-        const options =  {
-            colors: ['#008000'],
-          chart: {
+function ShapleyGraph(props) {
+    const options = {
+        colors: ['#008000'],
+        chart: {
             type: 'bar',
-          },
-          plotOptions: {
+        },
+        plotOptions: {
             bar: {
-              horizontal: true,
+                horizontal: true,
             },
-          },
-          xaxis: {
+        },
+        xaxis: {
             categories: props.attributes,
             show: false,
             labels: {
-              show: false
+                show: false
             },
             axisBorder: {
-              show: false
+                show: false
             },
             axisTicks: {
-              show: false
+                show: false
             }
-          }
         }
-      return (
-  <div id="chart">
-<ReactApexChart options={options} series={[{data:props.data}]} type="bar" height={350}  />
-</div>
-          );
-        }
+    }
+    return (
+        <div id="chart">
+            <ReactApexChart options={options} series={[{ data: props.data }]} type="bar" height={350} />
+        </div>
+    );
+}
 
-      export default ShapleyGraph;
+export default ShapleyGraph;

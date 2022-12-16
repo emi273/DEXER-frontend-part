@@ -1,8 +1,8 @@
-import { isLabelWithInternallyDisabledControl } from "@testing-library/user-event/dist/utils";
 import React, { useState } from "react";
 import Select from "react-select";
 import '../App.css';
-import Consts from './consts';
+import Consts from './consts'
+
 
 const PROPOTIONAL = "propotional"
 const NON_PROPOTIONAL = "non-propotional"
@@ -60,10 +60,10 @@ function UploadData(props) {
     const [ifUpload, setIfUpload] = useState(false);
     const [numOfOption, setNumOfOption] = useState("1");
     const [typeOfAlgorithm, setTypeOfAlgorithm] = useState("propotional")
-    const [kMin,setKMin]=useState(0);
-    const [kMax, setKMax]=useState(0);
-    const [threshold, setThreshold]=useState(0);
-    const [alpha, setAlpha]=useState(0);
+    const [kMin, setKMin] = useState(0);
+    const [kMax, setKMax] = useState(0);
+    const [threshold, setThreshold] = useState(0);
+    const [alpha, setAlpha] = useState(0);
 
 
     const onChooseDataSet = (choice) => {
@@ -91,11 +91,17 @@ function UploadData(props) {
         setTypeOfAlgorithm(choice.value);
     }
 
-    const handleSubmit = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault();
         const data = {
-            name: "emmi"
+            numOfOption: numOfOption,
+            typeOfAlgorithm: typeOfAlgorithm,
+            kMin: kMin,
+            kMax: kMax,
+            threshold: threshold,
+            alpha: alpha
         };
-        fetch("http://localhost:3000/blabla", {
+        fetch("http://localhost:3000/run", {
             method: "POST",
             headers: {
                 "Content-Type": "application/json",
@@ -114,7 +120,7 @@ function UploadData(props) {
     return (
         <form className="select">
             <label> please choose data set: </label>
-            <Select options={optionsForData} onChange={(choice)=>onChooseDataSet(choice)} styles={{ className: 'margin' }} />
+            <Select options={optionsForData} onChange={(choice) => onChooseDataSet(choice)} styles={{ className: 'margin' }} />
             <div>
                 {ifUpload && <input type="file" name="json" onChange={() => { }} />}
                 {ifUpload && <input type="file" name="csv" onChange={() => { }} />}
@@ -125,7 +131,7 @@ function UploadData(props) {
             <Select label={'type_of_algorthm'} options={optionsForAlgorithm} onChange={(choice) => onChooseAlgorithm(choice)} />
             <label> Please enter k min: </label> <input type="text" name="k_min" onChange={handleChangeKMin} />
             <br />
-            <label> Please enter k max: </label> <input type="text" name="k_max" onChange={handleChangeKMax}  />
+            <label> Please enter k max: </label> <input type="text" name="k_max" onChange={handleChangeKMax} />
             <br />
             <label> Please enter threshold: </label> <input type="text" name="threshold" onChange={handleChangeThreshold} />
             <br />
