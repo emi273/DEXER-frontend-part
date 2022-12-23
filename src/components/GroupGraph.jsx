@@ -9,10 +9,13 @@ import ShapleyGraph from './ShapleyGraph';
 import { Button } from 'bootstrap';
 
 
-function groupGraph(props) {
-    console.log("Emmiiii - groupGraph")
+
+function GroupGraph(props) {
+    console.log("Emmiiii - groupGraph2")
     console.log(props.data)
 
+    const [ifShowShapleyGraph, setIfShowShapleyGraph] = useState(false);
+    const [shapleyGraphData, setShapleyGraphData] = useState([]);
 
 
     // function createData(
@@ -47,17 +50,14 @@ function groupGraph(props) {
         })
             .then((response) => response.json())
             .then((data2) => {
+                console.log("i here!!!!")
                 console.log(data2);
-                // setshapleyGraphData(data2)
-                // setIfShowShapleyGraph(true)
+                setIfShowShapleyGraph(true)
+                setShapleyGraphData(data2)
             })
             .catch(error => console.error(error));
 
     }
-
-
-
-
 
     return (
         <div id="chart">
@@ -83,8 +83,8 @@ function groupGraph(props) {
                     </TableBody>
                 </Table>
             </TableContainer>
+            {ifShowShapleyGraph ? <ShapleyGraph data={shapleyGraphData} /> : null}
         </div>
     );
 }
-
-export default groupGraph;
+export default GroupGraph;
