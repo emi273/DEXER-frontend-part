@@ -1,18 +1,25 @@
-import React from "react";
+import React, { useState } from "react";
 import '../App.css';
 import ReactApexChart from 'react-apexcharts';
 
 
 function ShapleyGraph(props) {
     console.log("Emmiiii - ShapleyGraph");
+    console.log(props.data)
+    const [attributes, setIfShowShapleyGraph] = useState(props.data.map(item => item[0]));
+    const [data, setShapleyGraphData] = useState(props.data.map(item => item[1]));
+
 
     function handleDataPointClick(event) {
-        const attribute = event.seriesIndex;
-        //history.push(`/attributes/${attribute}`);
         console.log(":&)")
-        console.log("!!!!!55!-    handleDataPointClick");
-        console.log(attribute)
+        console.log("!!!!!77!-    handleDataPointClick");
+        console.log(event.dataPointIndex)
+        console.log(attributes[event.dataPointIndex], data[event.dataPointIndex]);
+
     }
+
+
+
 
     const options = {
         colors: ['#008000'],
@@ -28,7 +35,7 @@ function ShapleyGraph(props) {
             },
         },
         xaxis: {
-            categories: props.attributes,
+            categories: attributes,
             show: false,
             labels: {
                 show: false
@@ -44,7 +51,7 @@ function ShapleyGraph(props) {
     }
     return (
         <div id="chart">
-            <ReactApexChart options={options} series={[{ data: props.data }]} type="bar" height={350} />
+            <ReactApexChart options={options} series={[{ data: data }]} type="bar" height={350} />
         </div>
     );
 }
