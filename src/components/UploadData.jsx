@@ -112,9 +112,11 @@ function UploadData(props) {
     // }
 
     const onAddAttrubute = event => {
-        console.log("&&: " + event[0].value);
-        setAttributes(attributes.push(event[0].value));
-        console.log("%%%: " + attributes)
+        console.log("&&: " + event[event.length - 1].value);
+        console.log(event.length, typeof (attributes), attributes)
+        const temp_att = [...attributes, event[event.length - 1].value]
+        setAttributes(temp_att);
+        console.log(event.length, typeof (attributes), attributes)
     };
 
     const onChooseDataSet = (choice) => {
