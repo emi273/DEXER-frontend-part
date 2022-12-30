@@ -16,6 +16,8 @@ function GroupGraph(props) {
 
     const [ifShowShapleyGraph, setIfShowShapleyGraph] = useState(false);
     const [shapleyGraphData, setShapleyGraphData] = useState([]);
+    const [selectedGroup, setSelectedGroup] = useState("");
+    const [selectedK, setSelectedK] = useState(0);
 
 
     // function createData(
@@ -54,6 +56,8 @@ function GroupGraph(props) {
                 console.log(data2);
                 setIfShowShapleyGraph(true)
                 setShapleyGraphData(data2)
+                setSelectedGroup(group)
+                setSelectedK(k)
             })
             .catch(error => console.error(error));
 
@@ -68,22 +72,24 @@ function GroupGraph(props) {
                             <TableCell>Group</TableCell>
                             <TableCell align="right">Size</TableCell>
                             <TableCell align="right">K</TableCell>
+                            <TableCell align="right">Size top k</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.data.map(([group, size, k]) => (
+                        {props.data.map(([group, size, k, size_top_k]) => (
                             <TableRow
                                 key={group}>
                                 <TableCell>{group}</TableCell>
                                 <TableCell align="right">{size}</TableCell>
                                 <TableCell align="right">{k}</TableCell>
-                                <button onClick={() => handleShapleyValue(k, group, size)} className='shapleyValuesButton'>Shapley Values Graph</button>
+                                <TableCell align="right">{size_top_k}</TableCell>
+                                <button onClick={() => handleShapleyValue(k, group, size)} className='shapleyValuesButton'>Explain</button>
                             </TableRow>
                         ))}
                     </TableBody>
                 </Table>
             </TableContainer>
-            {ifShowShapleyGraph ? <ShapleyGraph data={shapleyGraphData} /> : null}
+            {ifShowShapleyGraph ? <ShapleyGraph data={[shapleyGraphData, selectedGroup, selectedK]} /> : null}
         </div>
     );
 }

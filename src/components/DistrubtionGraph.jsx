@@ -2,7 +2,9 @@ import React from "react";
 import '../App.css';
 import ReactApexChart from 'react-apexcharts';
 
-function DistrbutionGraph(props) {
+//function DistrbutionGraph(props) {
+function DistrbutionGraph() {
+    console.log("DistrbutionGraph")
     const series = [{
         name: "{mother's education = primary aducation (4th grade)}",
         data: [0, 0, 0, 0, 0, 0, 0, 0.2, 0.3, 0.15, 0.1, 0.05]
