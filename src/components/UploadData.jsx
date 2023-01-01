@@ -3,6 +3,7 @@ import Select from "react-select";
 import '../App.css';
 import Consts from './consts';
 import GroupGraph from "./GroupGraph";
+import GroupGraphTwo from "./GroupGraphTwo";
 import GroupTable from './GroupTable';
 
 
@@ -98,11 +99,13 @@ function UploadData(props) {
     const [ifUpload, setIfUpload] = useState(false);
     const [numOfOption, setNumOfOption] = useState("1");
     const [typeOfAlgorithm, setTypeOfAlgorithm] = useState("propotional")
-    const [kMin, setKMin] = useState(11);
-    const [kMax, setKMax] = useState(13);
+    const [kMin, setKMin] = useState(10);
+    const [kMax, setKMax] = useState(12);
     const [threshold, setThreshold] = useState(2);
     const [alpha, setAlpha] = useState(0.05);
-    const [attributes, setAttributes] = useState(["sex", "age_cat", "race_factor"]);
+    //const [attributes, setAttributes] = useState(["sex", "age_cat", "race_factor"]);
+    //school,sex,age
+    const [attributes, setAttributes] = useState(["sex", "age", "school"]);
     const [groupTableData, setGroupTableData] = useState([]);
     const [ifShowgroupTableData, setIfShowgroupTableData] = useState(false);
     const [ifShowForm, setIfShowForm] = useState(true);
@@ -117,6 +120,16 @@ function UploadData(props) {
         const temp_att = [...attributes, event[event.length - 1].value]
         setAttributes(temp_att);
         console.log(event.length, typeof (attributes), attributes)
+    };
+
+    const onChangeKMin = (event) => {
+        console.log("&&: " + event.target.value);
+        setKMin(event.target.value)
+    };
+
+    const onChangeKMax = (event) => {
+        console.log("&&: " + event.target.value);
+        setKMax(event.target.value)
     };
 
     const onChooseDataSet = (choice) => {
@@ -176,30 +189,47 @@ function UploadData(props) {
     }
 
     return (
-        <div>
+        <div style={{ height: "100%", width: "100%" }}>
             {ifShowForm ? (<form className="select">
+
                 <label> please choose data set: </label>
-                <Select options={optionsForData} onChange={(choice) => onChooseDataSet(choice)} styles={{ className: 'margin' }} />
+                <Select options={optionsForData} onChange={(choice) => onChooseDataSet(choice)} styles={{ className: 'margin' }} defaultInputValue="Students" />
                 <div>
                     {ifUpload && <input type="file" name="json" onChange={() => { }} />}
                     {ifUpload && <input type="file" name="csv" onChange={() => { }} />}
                 </div>
                 {!ifUpload && <label>please choose attributes:</label>}
                 {!ifUpload && <Select isMulti options={getOptions()} onChange={onAddAttrubute} />}
-                <label> choose type of algoirthm:</label>
-                <Select label={'type_of_algorthm'} options={optionsForAlgorithm} onChange={(choice) => onChooseAlgorithm(choice)} />
-                <label> Please enter k min: </label> <input type="text" name="k_min" onChange={handleChangeKMin} />
+                {/* <label> choose type of algoirthm:</label>
+                <Select label={'type_of_algorthm'} options={optionsForAlgorithm} onChange={(choice) => onChooseAlgorithm(choice)} /> */}
                 <br />
-                <label> Please enter k max: </label> <input type="text" name="k_max" onChange={handleChangeKMax} />
+                <label for="k-range">Please enter k min:   </label>
+                <input type="range" name="k-range" id="k-range" min="5" max="20" step="1" defaultValue="10" onChange={onChangeKMin} />
+                <label for="k-range">{kMin}</label>
                 <br />
-                <label> Please enter threshold: </label> <input type="text" name="threshold" onChange={handleChangeThreshold} />
-                <br />
-                {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" onChange={handleChangeAlpha} />}
                 <br />
 
-                <button onClick={handleSubmit}>Submit</button >
+                <label for="k-range">Please enter k max:   </label>
+                <input type="range" name="k-range" id="k-range" min="5" max="20" step="1" defaultValue="12" onChange={onChangeKMax} />
+                <label for="k-range">{kMax}</label>
+                <br />
+                <br />
+
+                {/* <label> Please enter k min: </label>
+                 <input type="text" name="k_min" onChange={handleChangeKMin} />
+                <br />
+                <label> Please enter k max: </label> <input type="text" name="k_max" onChange={handleChangeKMax} />
+                <br /> */}
+                <label> Please enter threshold: </label> <input type="text" name="threshold" onChange={handleChangeThreshold} defaultValue="2" />
+                <br />
+                <br />
+                {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" onChange={handleChangeAlpha} defaultValue="0.05" />}
+                <br />
+                <br />
+                <button className='shapleyValuesButton' onClick={handleSubmit}>Submit</button >
             </form>) : null}
-            {ifShowgroupTableData ? <GroupGraph data={groupTableData} /> : null}
+            {ifShowgroupTableData ? <GroupGraphTwo data={groupTableData} /> : null}
+            {/* {ifShowgroupTableData ? <GroupGraphTwo data={[['a', '1', '1', '1'], ['a', '2', '2', '2'], ['c', '3', '3', '3']]} /> : null} */}
         </div>
     )
 }

@@ -12,8 +12,8 @@ export default function Root() {
     return (
         <div className='mainDiv'>
             <br />
-            <h1>Detection of Groups With Biased Reprensentation in Ranking</h1>
-            <br /><br />
+            <h1>DEXER</h1>
+
             <div className='test'>
                 <UploadData />
             </div>
