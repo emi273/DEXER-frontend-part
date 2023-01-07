@@ -239,7 +239,6 @@ function UploadData(props) {
                 <br />
                 <br />
                 <button className='shapleyValuesButton' onClick={handleSubmit}>Submit</button >
-                {!ifShowgroupTableData ? <StudentsTable/> : null}
             </form>) : null}
             {ifShowgroupTableData ? <GroupGraphTwo data={groupTableData} /> : null}
             {/* {ifShowgroupTableData ? <GroupGraphTwo data={[['a', '1', '1', '1'], ['a', '2', '2', '2'], ['c', '3', '3', '3']]} /> : null} */}
