@@ -5,6 +5,8 @@ import Consts from './consts';
 import GroupGraph from "./GroupGraph";
 import GroupGraphTwo from "./GroupGraphTwo";
 import GroupTable from './GroupTable';
+import Slider from '@mui/material/Slider';
+import StudentsTable from "./StudentsTable";
 
 
 const PROPOTIONAL = "propotional"
@@ -187,6 +189,15 @@ function UploadData(props) {
             .catch(error => console.error(error));
 
     }
+    const handleChangeKValues = (event, newValue) => {
+        setValueKRange(newValue);
+        setKMin(newValue[0]);
+        setKMax(newValue[1]);
+        console.log("k arr" + newValue[0]+","+newValue[1]);
+
+      };
+
+    const [valueKRange, setValueKRange] = React.useState([10,20]);
 
     return (
         <div style={{ height: "100%", width: "100%" }}>
@@ -203,15 +214,16 @@ function UploadData(props) {
                 {/* <label> choose type of algoirthm:</label>
                 <Select label={'type_of_algorthm'} options={optionsForAlgorithm} onChange={(choice) => onChooseAlgorithm(choice)} /> */}
                 <br />
-                <label for="k-range">Please enter k min:   </label>
-                <input type="range" name="k-range" id="k-range" min="5" max="20" step="1" defaultValue="10" onChange={onChangeKMin} />
-                <label for="k-range">{kMin}</label>
-                <br />
-                <br />
-
-                <label for="k-range">Please enter k max:   </label>
-                <input type="range" name="k-range" id="k-range" min="5" max="20" step="1" defaultValue="12" onChange={onChangeKMax} />
-                <label for="k-range">{kMax}</label>
+                <label for="k-range">Please enter k min and k max values:   </label>
+                <Slider
+                    getAriaLabel={() => 'k values range'}
+                    value={valueKRange}
+                    onChange={handleChangeKValues}
+                    valueLabelDisplay="auto"
+                    getAriaValueText={ (value)=> {return `K values are ${value[0]}-${value[1]}`;} }
+                    disableSwap
+                />
+                <label>K values are {kMin}-{kMax}</label>
                 <br />
                 <br />
 
@@ -223,10 +235,11 @@ function UploadData(props) {
                 <label> Please enter threshold: </label> <input type="text" name="threshold" onChange={handleChangeThreshold} defaultValue="2" />
                 <br />
                 <br />
-                {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" onChange={handleChangeAlpha} defaultValue="0.05" />}
+                {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" onChange={handleChangeAlpha} defaultValue="0.95" />}
                 <br />
                 <br />
                 <button className='shapleyValuesButton' onClick={handleSubmit}>Submit</button >
+                {!ifShowgroupTableData ? <StudentsTable/> : null}
             </form>) : null}
             {ifShowgroupTableData ? <GroupGraphTwo data={groupTableData} /> : null}
             {/* {ifShowgroupTableData ? <GroupGraphTwo data={[['a', '1', '1', '1'], ['a', '2', '2', '2'], ['c', '3', '3', '3']]} /> : null} */}
