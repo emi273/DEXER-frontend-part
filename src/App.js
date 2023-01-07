@@ -9,12 +9,17 @@ import {
   createBrowserRouter,
   RouterProvider,
 } from "react-router-dom";
+import GroupGraph from './components/GroupGraph';
 
 const router = createBrowserRouter([
   {
     path: "/",
     element: <Root />,
   },
+  {
+    path: "/GroupGraph",
+    element: <GroupGraph />
+  }
 ]);
 
 ReactDOM.createRoot(document.getElementById("root")).render(
