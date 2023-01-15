@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Select from "react-select";
 import '../App.css';
 import Consts from './consts';
@@ -7,6 +7,8 @@ import GroupGraphTwo from "./GroupGraphTwo";
 import GroupTable from './GroupTable';
 import Slider from '@mui/material/Slider';
 import StudentsTable from "./StudentsTable";
+import download from "downloadjs";
+import { saveAs } from 'file-saver';
 
 
 const PROPOTIONAL = "propotional"
@@ -111,6 +113,7 @@ function UploadData(props) {
     const [groupTableData, setGroupTableData] = useState([]);
     const [ifShowgroupTableData, setIfShowgroupTableData] = useState(false);
     const [ifShowForm, setIfShowForm] = useState(true);
+    const [downloadUrl, setDownloadUrl] = useState(null);
 
     // const onAddAttrubute = (choice) => {
     //     setAttributes(attributes.push(choice.value));
@@ -159,6 +162,10 @@ function UploadData(props) {
         setTypeOfAlgorithm(choice.value);
     }
 
+    const handleDownload = async () => {
+        window.open('https://docs.google.com/spreadsheets/d/18G-xwgSxjr4QE53I6gjOS56m_8xvCvye/edit?usp=drive_web&ouid=104057638323133984765&rtpof=true');
+      }
+    
     const handleSubmit = (event) => {
         event.preventDefault();
         const data = {
@@ -205,6 +212,10 @@ function UploadData(props) {
 
                 <label> please choose data set: </label>
                 <Select options={optionsForData} onChange={(choice) => onChooseDataSet(choice)} styles={{ className: 'margin' }} defaultInputValue="Students" />
+                
+                {numOfOption === "1" && <button className="shapleyValuesButton" onClick={handleDownload}>Show Me The Data Set</button>}
+                
+                
                 <div>
                     {ifUpload && <input type="file" name="json" onChange={() => { }} />}
                     {ifUpload && <input type="file" name="csv" onChange={() => { }} />}
