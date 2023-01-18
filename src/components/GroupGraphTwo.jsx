@@ -24,12 +24,12 @@ import { visuallyHidden } from '@mui/utils';
 import { useState } from "react";
 import ShapleyGraph from './ShapleyGraph';
 
-function createData(group, size, k, size_top_k) {
+function createData(group, size, k, sizeInTopK) {
     return {
         group,
         size,
         k,
-        size_top_k
+        sizeInTopK,
     };
 }
 
@@ -136,7 +136,7 @@ function EnhancedTableHead(props) {
 EnhancedTableHead.propTypes = {
     numSelected: PropTypes.number.isRequired,
     onRequestSort: PropTypes.func.isRequired,
-    onSelectAllClick: PropTypes.func.isRequired,
+    //onSelectAllClick: PropTypes.func.isRequired,
     order: PropTypes.oneOf(['asc', 'desc']).isRequired,
     orderBy: PropTypes.string.isRequired,
     rowCount: PropTypes.number.isRequired,
@@ -204,12 +204,14 @@ export default function GroupGraphTwo(props) {
     const [selectedK, setSelectedK] = useState(0);
 
     const handleClick = (event, row) => {
+        console.log("here is handleClick")
         console.log(row);
         console.log(row.k);
         const data = {
             k: row.k,
             group: row.group,
             size: row.size,
+            sizeInTopK: row.sizeInTopK,
         };
         fetch("http://localhost:3000/getShapleyValues", {
             method: "POST",
@@ -220,7 +222,7 @@ export default function GroupGraphTwo(props) {
         })
             .then((response) => response.json())
             .then((data2) => {
-                console.log("i here!!!!")
+                console.log("Here is handleClick")
                 console.log(data2);
                 setIfShowShapleyGraph(true)
                 setShapleyGraphData(data2)
@@ -256,17 +258,17 @@ export default function GroupGraphTwo(props) {
     }
     const rows = [];
     if (rows.length === 0) {
-        console.log("ehreeeeeeeee")
+        console.log("Here is GroupGraphTwo")
         getRows(props.data, rows)
     }
     return (
         <div  >
             <Box sx={{ width: '100%' }}>
-                <Paper sx={{ width: '100%', mb: 2 }}>
+                <Paper sx={{ width: '100%', mb: 1 }}>
                     <EnhancedTableToolbar numSelected={selected.length} />
                     <TableContainer>
                         <Table
-                            sx={{ minWidth: 750 }}
+                            sx={{ minWidth: 500 }}
                             aria-labelledby="tableTitle"
                             size={dense ? 'small' : 'medium'}
                         >
@@ -293,7 +295,7 @@ export default function GroupGraphTwo(props) {
                                                 role="checkbox"
                                                 aria-checked={isItemSelected}
                                                 tabIndex={-1}
-                                                key={row.group}
+                                                key={row.group.concat(row.k.toString())}
                                                 selected={isItemSelected}
                                             >
                                                 <TableCell padding="checkbox">
@@ -315,7 +317,7 @@ export default function GroupGraphTwo(props) {
                                                 </TableCell>
                                                 <TableCell align="right">{row.size}</TableCell>
                                                 <TableCell align="right">{row.k}</TableCell>
-                                                <TableCell align="right">{row.size}</TableCell>
+                                                <TableCell align="right">{row.sizeInTopK}</TableCell>
                                             </TableRow>
                                         );
                                     })}

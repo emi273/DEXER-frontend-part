@@ -37,6 +37,7 @@ function GroupGraph(props) {
     // ];
 
     const handleShapleyValue = (k, group, size) => {
+        console.log("Here is handleShapleyValue")
         console.log(k, group, size);
         const data = {
             k: k,
@@ -78,7 +79,7 @@ function GroupGraph(props) {
                     <TableBody>
                         {props.data.map(([group, size, k, size_top_k]) => (
                             <TableRow
-                                key={group}>
+                                key={group.concat(k.toString())}>
                                 <TableCell>{group}</TableCell>
                                 <TableCell align="right">{size}</TableCell>
                                 <TableCell align="right">{k}</TableCell>
