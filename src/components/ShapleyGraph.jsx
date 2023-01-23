@@ -46,7 +46,7 @@ function ShapleyGraph(props) {
         })
             .then((response) => response.json())
             .then((data2) => {
-                console.log("i here!!!!")
+                console.log("Here is handleDataPointClick, getDistrbution")
                 console.log(data2);
             })
             .catch(error => console.error(error));

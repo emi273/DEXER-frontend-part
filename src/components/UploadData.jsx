@@ -6,7 +6,7 @@ import GroupGraph from "./GroupGraph";
 import GroupGraphTwo from "./GroupGraphTwo";
 import GroupTable from './GroupTable';
 import Slider from '@mui/material/Slider';
-import StudentsTable from "./StudentsTable";
+// import StudentsTable from "./StudentsTable";
 import download from "downloadjs";
 import { saveAs } from 'file-saver';
 
@@ -76,7 +76,7 @@ const optionsForAlgorithm = [
 ]
 
 function UploadData(props) {
-    console.log("tallll");
+    console.log("Here is function UploadData");
 
     const handleChangeKMin = (event) => {
         setKMin(event.target.value);
@@ -105,11 +105,11 @@ function UploadData(props) {
     const [typeOfAlgorithm, setTypeOfAlgorithm] = useState("propotional")
     const [kMin, setKMin] = useState(10);
     const [kMax, setKMax] = useState(12);
-    const [threshold, setThreshold] = useState(2);
-    const [alpha, setAlpha] = useState(0.05);
+    const [threshold, setThreshold] = useState(50);
+    const [alpha, setAlpha] = useState(0.8);
     //const [attributes, setAttributes] = useState(["sex", "age_cat", "race_factor"]);
     //school,sex,age
-    const [attributes, setAttributes] = useState(["sex", "age", "school"]);
+    const [attributes, setAttributes] = useState(["sex", "age", "school", "address", "famsize", "Pstatus"]);
     const [groupTableData, setGroupTableData] = useState([]);
     const [ifShowgroupTableData, setIfShowgroupTableData] = useState(false);
     const [ifShowForm, setIfShowForm] = useState(true);
@@ -177,7 +177,7 @@ function UploadData(props) {
             alpha: alpha,
             attributes: attributes
         };
-        console.log("^^^: " + attributes)
+        console.log("here is handleSubmit, attributes: " + attributes)
         fetch("http://localhost:3000/getGroups", {
             method: "POST",
             headers: {
@@ -186,17 +186,19 @@ function UploadData(props) {
             body: JSON.stringify(data),
         })
             .then((response) => response.json())
-            .then((data2) => {
+            .then((data) => {
                 // Do something with the response data
-                console.log(data2);
-                setGroupTableData(data2);
+                console.log(data);
+                setGroupTableData(data);
                 setIfShowgroupTableData(true)
                 setIfShowForm(false)
+                console.log("finish handleSubmit")
             })
             .catch(error => console.error(error));
 
     }
     const handleChangeKValues = (event, newValue) => {
+        console.log("here is handleChangeKValues")
         setValueKRange(newValue);
         setKMin(newValue[0]);
         setKMax(newValue[1]);
@@ -221,11 +223,11 @@ function UploadData(props) {
                     {ifUpload && <input type="file" name="csv" onChange={() => { }} />}
                 </div>
                 {!ifUpload && <label>please choose attributes:</label>}
-                {!ifUpload && <Select isMulti options={getOptions()} onChange={onAddAttrubute} />}
+                {!ifUpload && <Select isMulti options={getOptions()} onChange={onAddAttrubute}/>}
                 {/* <label> choose type of algoirthm:</label>
                 <Select label={'type_of_algorthm'} options={optionsForAlgorithm} onChange={(choice) => onChooseAlgorithm(choice)} /> */}
                 <br />
-                <label for="k-range">Please enter k min and k max values:   </label>
+                <label htmlFor="k-range">Please enter k min and k max values:   </label>
                 <Slider
                     getAriaLabel={() => 'k values range'}
                     value={valueKRange}
@@ -243,10 +245,10 @@ function UploadData(props) {
                 <br />
                 <label> Please enter k max: </label> <input type="text" name="k_max" onChange={handleChangeKMax} />
                 <br /> */}
-                <label> Please enter threshold: </label> <input type="text" name="threshold" onChange={handleChangeThreshold} defaultValue="2" />
+                <label> Please enter threshold: </label> <input type="text" name="threshold" onChange={handleChangeThreshold} defaultValue="50" />
                 <br />
                 <br />
-                {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" onChange={handleChangeAlpha} defaultValue="0.95" />}
+                {(typeOfAlgorithm === PROPOTIONAL) && <label> Please enter alpha: </label>} {(typeOfAlgorithm === PROPOTIONAL) && <input type="text" name="alpha" onChange={handleChangeAlpha} defaultValue="0.80" />}
                 <br />
                 <br />
                 <button className='shapleyValuesButton' onClick={handleSubmit}>Submit</button >

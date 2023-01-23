@@ -1,13 +1,30 @@
 import React from "react";
 import '../App.css';
 import ReactApexChart from 'react-apexcharts';
+import ReactDOM from 'react-dom';
+
 
 //function DistrbutionGraph(props) {
-function DistrbutionGraph() {
+function DistrbutionGraph(props) {
     console.log("DistrbutionGraph")
+    console.log(props.data)
+    
+    // fetch("http://localhost:3000/getDistrbution", {
+    //     method: "POST",
+    //     headers: {
+    //         "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify(data),
+    // })
+    // .then(resp => resp.json())
+    // .then(data => {
+
+    //     setBotsNames(data.data);
+    // });
+
     const series = [{
         name: "{mother's education = primary aducation (4th grade)}",
-        data: [0, 0, 0, 0, 0, 0, 0, 0.2, 0.3, 0.15, 0.1, 0.05]
+        data: [0, 0, 0, 0, 0, 0.05, 0.01, 0.01, 0.11, 0, 0, 0]
     }, {
         name: 'Top - k',
         data: [0.15, 0.05, 0.05, 0.05, 0.1, 0.05, 0.01, 0.01, 0.11, 0, 0, 0]
@@ -34,7 +51,7 @@ function DistrbutionGraph() {
             colors: ['transparent']
         },
         xaxis: {
-            categories: [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
+            categories:  [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20],
         },
         yaxis: {
             title: {

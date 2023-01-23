@@ -31,12 +31,13 @@ function groupGraph(props) {
 
     // ];
 
-    const handleShapleyValue = (k, group, size) => {
-        console.log(k, group, size);
+    const handleShapleyValue = (k, group, size, size_k) => {
+        console.log(k, group, size, size_k);
         const data = {
             k: k,
             group: group,
             size: size,
+            size_k: size_k
         };
         fetch("http://localhost:3000/getShapleyValues", {
             method: "POST",
@@ -66,18 +67,20 @@ function groupGraph(props) {
                     <TableHead>
                         <TableRow>
                             <TableCell>Group</TableCell>
-                            <TableCell align="right">Size</TableCell>
+                            <TableCell align="right">Size overall</TableCell>
                             <TableCell align="right">K</TableCell>
+                            <TableCell align="right">Size in top-k</TableCell>
                         </TableRow>
                     </TableHead>
                     <TableBody>
-                        {props.data.map(([group, size, k]) => (
+                        {props.data.map(([group, size, k, size_k]) => (
                             <TableRow
-                                key={group}>
+                                key={group.concat(k.toString())}>
                                 <TableCell>{group}</TableCell>
                                 <TableCell align="right">{size}</TableCell>
                                 <TableCell align="right">{k}</TableCell>
-                                <button onClick={() => handleShapleyValue(k, group, size)} className='shapleyValuesButton'>Shapley Values Graph</button>
+                                <TableCell align="right">{size_k}</TableCell>
+                                <button onClick={() => handleShapleyValue(k, group, size, size_k)} className='shapleyValuesButton'>Shapley Values Graph</button>
                             </TableRow>
                         ))}
                     </TableBody>
